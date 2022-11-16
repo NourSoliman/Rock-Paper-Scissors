@@ -75,3 +75,16 @@
 
 }
 /*End*/
+/*Media query*/
+@media screen and (max-width:600px) {
+    .buttons-Container {
+        display: grid;
+        grid-template-columns: repeat(3 , 1fr);
+        grid-template-rows: auto;
+    }
+    .info-Container {
+        width: 400px;
+    }
+
+}
+/*End*/
