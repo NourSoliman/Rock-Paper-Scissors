@@ -1,39 +1,83 @@
+let PlayerChoice = document.getElementById("PlayerChoice")
+let ComputerChoice = document.getElementById("ComputerChoice")
+let resultText = document.getElementById("Result")
+let buttons = document.querySelectorAll(`#button`)
+let pScore = document.getElementById(`p-score`)
+let cScore = document.getElementById(`c-score`)
+let final = document.getElementById(`final`)
+let container = document.querySelector(`.buttons-Container`)
+let restart = document.getElementById(`restart`).style.display = `none`
+document.getElementById(`restart`).addEventListener(`click` , restartGame)
+let computerScore = 0;
+let playerScore = 0;
+let playerSelection;
+let computerSelection;
 
-const myArray = ["Paper", "Scissors", "Rock"];
-function computerPlay() {
-    return myArray[~~(Math.random() * myArray.length)];
-}
-
-function playRound(playerSelection, computerSelection) {
-
-    if (computerSelection.toLowerCase() == playerSelection.toLowerCase()) {
-        document.write("t3adol")
-    } else if (
-        (computerSelection.toLowerCase() == "Rock" && playerSelection.toLowerCase() == "Scissors")
-            (computerSelection == "Scissors" && playerSelection == "Paper")
-            (computerSelection == "Paper" && playerSelection == "Rock")
-    ) {
-        computerScore++
-        console.log("You lose")
+function getComputerChoice() {
+    const random = Math.floor(Math.random() * 3) 
+    switch(random){
+        case 0:
+            computerSelection = `ROCK`
+            break;
+        case 1:
+            computerSelection = `PAPER`
+            break;
+        case 2: 
+            computerSelection = `SCISSORS`
+            break;
     }
-    if (playerSelection.toLowerCase() == computerSelection.toLowerCase()) {
-        document.write("t3adol")
-    } else if ((playerSelection == "Rock" && computerSelection == "Scissors")
-        (playerSelection == "Scissors" && computerSelection == "Paper")
-        (playerSelection == "Paper" && computerSelection == "Rock")) {
-        userScore++
-        console.log("you win")
-    };
+    return random
 }
 
-let computerScore = parseInt(0);
-let userScore = parseInt(0);
+buttons.forEach(button => button.addEventListener(`click`, () => {
+        playerSelection = button.className;
+        getComputerChoice() 
+        PlayerChoice.textContent = `You Picked: ${playerSelection}`
+        ComputerChoice.textContent = `Computer Picked : ${computerSelection}`
+        playRound()
+        console.log(`from buttons ` + playerSelection);
+    }))
 
-
-for (let i = 0; i < 5; i++) {
-    let playerSelection = prompt("Pick amove!");
-    let computerSelection = computerPlay();
-    console.log(playRound(playerSelection, computerSelection));
-    console.log("Your score " + userScore);
-    console.log("computer score" + computerScore);
+    function playRound() {
+        if(playerSelection == computerSelection) {
+            resultText.textContent = `Its a Tie Game!`
+            console.log(`its a tie`);
+        }
+        else if((computerSelection == `ROCK` && playerSelection == `PAPER`)
+        ||(computerSelection == `SCISSORS` && playerSelection == `PAPER`) 
+        || (computerSelection == `ROCK` && playerSelection == `SCISSORS`)){
+        computerScore++;
+        cScore.textContent = `Computer Score : ${computerScore}`
+        resultText.textContent = `Computer Wins this round!`
+    } else if((playerSelection == `ROCK` && computerSelection == `PAPER`)
+        ||(playerSelection == `SCISSORS` && computerSelection == `PAPER`) 
+        || (playerSelection == `ROCK` && computerSelection == `SCISSORS`)) {
+        playerScore = ++playerScore
+        pScore.textContent = `Player Score: ${playerScore}`
+        resultText.textContent = `You Won This Round!`
+    }
+    gameOver()
 }
+
+function gameOver() {
+    if(computerScore == 5){
+        final.textContent = `Computer Wins..`
+        hide()
+        } else if(playerScore == 5) {
+        final.textContent = `You are the Winner!!`
+        hide()
+    }
+
+}
+function hide() {
+    container.style.display = `none`
+    document.getElementById(`restart`).style.display = `inline-block`
+}
+function restartGame() {
+    container.style.display = `flex`
+    document.getElementById(`restart`).style.display = `none`
+    computerScore = 0
+    playerScore = 0
+
+}
+
