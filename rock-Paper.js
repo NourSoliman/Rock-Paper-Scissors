@@ -78,6 +78,10 @@ function restartGame() {
     document.getElementById(`restart`).style.display = `none`
     computerScore = 0
     playerScore = 0
+    PlayerChoice.textContent = ``
+    ComputerChoice.textContent = ``
+    resultText.textContent = ``
+    final.textContent = ``
 
 }
 
